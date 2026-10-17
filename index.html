@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
+<meta name="theme-color" content="#07060d" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<title>BONDHU BATTLE ARENA — MADE BY SAMI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+<canvas id="gl"></canvas>
+
+<div id="ui">
+  <!-- TITLE -->
+  <section id="s-title" class="screen active">
+    <div class="logo"><small>MADE BY SAMI</small><h1><span>BONDHU</span><span class="b">BATTLE ARENA</span></h1></div>
+    <div id="tapStart" class="tap">TAP TO START</div>
+    <nav class="menu hidden" id="mainMenu">
+      <button data-go="online">ONLINE MATCH</button>
+      <button data-go="ai">VS COMPUTER</button>
+      <button data-go="training">TRAINING</button>
+      <button data-go="settings" class="alt">SETTINGS</button>
+    </nav>
+    <footer>BONDHU BATTLE ARENA — MADE BY SAMI</footer>
+  </section>
+
+  <!-- ONLINE -->
+  <section id="s-online" class="screen panelwrap">
+    <div class="panel">
+      <h2>ONLINE MATCH</h2>
+      <label>YOUR NAME<input id="inName" maxlength="14" placeholder="Fighter" autocomplete="off" /></label>
+      <button id="btnCreate" class="big">CREATE PRIVATE ROOM</button>
+      <div class="row"><input id="inCode" maxlength="5" placeholder="ROOM CODE" autocomplete="off" autocapitalize="characters" /><button id="btnJoin">JOIN</button></div>
+      <button id="btnQuick" class="big alt">QUICK MATCH (PUBLIC)</button>
+      <div id="onlineMsg" class="msg"></div>
+      <button class="back" data-go="title">BACK</button>
+    </div>
+  </section>
+
+  <!-- LOBBY -->
+  <section id="s-lobby" class="screen panelwrap">
+    <div class="panel">
+      <h2>LOBBY</h2>
+      <div class="code">ROOM <b id="lobCode">-----</b></div>
+      <div class="row"><button id="btnCopy">COPY INVITE LINK</button><button id="btnShare">SHARE</button></div>
+      <div id="lobPlayers" class="plist"></div>
+      <button id="btnPick" class="big alt">CHOOSE FIGHTER</button>
+      <button id="btnReady" class="big">READY</button>
+      <div id="lobMsg" class="msg"></div>
+      <button class="back" id="btnLeave">LEAVE ROOM</button>
+    </div>
+  </section>
+
+  <!-- SELECT -->
+  <section id="s-select" class="screen">
+    <div class="selTop"><h2>CHOOSE YOUR FIGHTER</h2></div>
+    <div class="selInfo">
+      <div id="selName" class="selName">ITHUN</div>
+      <div id="selTitle" class="selTitle"></div>
+      <div id="selBio" class="selBio"></div>
+      <div class="stats" id="selStats"></div>
+      <div class="spbox"><b id="selSp"></b><span id="selSpDesc"></span></div>
+      <div class="arenaPick" id="arenaPick"><button id="arPrev">◀</button><span id="arName"></span><button id="arNext">▶</button></div>
+    </div>
+    <div class="selBottom">
+      <div id="selRow" class="selRow"></div>
+      <div class="row"><button class="back" id="selBack">BACK</button><button id="selGo" class="big">CONFIRM</button></div>
+    </div>
+  </section>
+
+  <!-- HUD -->
+  <section id="s-hud" class="screen hud">
+    <div class="hudtop">
+      <div class="side l"><div class="nm"><span id="n0"></span><span class="pips" id="pips0"></span></div>
+        <div class="bar hp"><i id="hpl0" class="lag"></i><i id="hp0"></i></div><div class="bar en"><i id="en0"></i></div><div class="bar st"><i id="sta0"></i></div></div>
+      <div class="mid"><div id="timer">60</div><div id="rnd">ROUND 1</div></div>
+      <div class="side r"><div class="nm"><span class="pips" id="pips1"></span><span id="n1"></span></div>
+        <div class="bar hp"><i id="hpl1" class="lag"></i><i id="hp1"></i></div><div class="bar en"><i id="en1"></i></div><div class="bar st"><i id="sta1"></i></div></div>
+    </div>
+    <div id="banner"></div>
+    <div id="combo"></div>
+    <div id="netInfo"></div>
+    <button id="btnPause" class="mini">II</button>
+    <button id="btnDummy" class="mini dummy hidden">DUMMY: IDLE</button>
+  </section>
+
+  <!-- RESULT -->
+  <section id="s-result" class="screen panelwrap clear">
+    <div class="panel res">
+      <h2 id="resTitle">VICTORY</h2><div id="resSub" class="msg"></div>
+      <button id="resAgain" class="big">REMATCH</button><button id="resMenu" class="big alt">MAIN MENU</button>
+    </div>
+  </section>
+
+  <!-- PAUSE -->
+  <section id="s-pause" class="screen panelwrap">
+    <div class="panel"><h2>PAUSED</h2>
+      <button id="pResume" class="big">RESUME</button><button id="pRestart" class="big alt">RESTART</button>
+      <button id="pSettings">SETTINGS</button><button id="pQuit" class="back">QUIT TO MENU</button></div>
+  </section>
+
+  <!-- SETTINGS -->
+  <section id="s-settings" class="screen panelwrap">
+    <div class="panel">
+      <h2>SETTINGS</h2>
+      <label>GRAPHICS<select id="setQ"><option value="auto">Auto (adaptive)</option><option value="low">Low (older phones)</option><option value="medium">Medium</option><option value="high">High</option></select></label>
+      <label>TOUCH CONTROLS<select id="setTouch"><option value="auto">Auto</option><option value="on">Always on</option><option value="off">Off (keyboard)</option></select></label>
+      <label>MASTER<input type="range" id="vMaster" min="0" max="1" step="0.05" /></label>
+      <label>MUSIC<input type="range" id="vMusic" min="0" max="1" step="0.05" /></label>
+      <label>SOUND FX<input type="range" id="vSfx" min="0" max="1" step="0.05" /></label>
+      <label>VOICES<input type="range" id="vVoice" min="0" max="1" step="0.05" /></label>
+      <label class="chk"><input type="checkbox" id="vMute" /> MUTE ALL</label>
+      <div class="msg small">Keyboard: WASD/Arrows move · J punch · K kick · L block · Space jump · Shift dodge · U special</div>
+      <button class="back" id="setBack">BACK</button>
+    </div>
+  </section>
+
+  <!-- TOUCH CONTROLS -->
+  <div id="touch">
+    <div id="joy"></div>
+    <div id="joyBase"><div id="joyKnob"></div></div>
+    <div class="btns">
+      <button data-act="special" id="bSp" class="b sp">SPECIAL</button>
+      <button data-act="jump" class="b jp">JUMP</button>
+      <button data-act="block" class="b bl">BLOCK</button>
+      <button data-act="kick" class="b kk">KICK</button>
+      <button data-act="punch" class="b pn">PUNCH</button>
+      <button data-act="dodge" class="b dg">DODGE</button>
+    </div>
+  </div>
+
+  <div id="rotate"><div>↻<br>Rotate your phone to landscape</div></div>
+  <div id="toast"></div>
+  <div id="overlayMsg"></div>
+</div>
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>

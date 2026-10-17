@@ -1,0 +1,12 @@
+# Backend deploy (Render Blueprint). Set CLIENT_ORIGIN to your Netlify URL after the first frontend deploy.
+services:
+  - type: web
+    name: bondhu-battle-arena-server
+    runtime: node
+    rootDir: server
+    buildCommand: npm install --omit=dev
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: CLIENT_ORIGIN
+        sync: false
